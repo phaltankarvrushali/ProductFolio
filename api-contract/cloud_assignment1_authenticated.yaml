@@ -1,0 +1,885 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a test"
+  version: 4.0.0
+  title: "Cloud assignment 1"
+  contact:
+    name: Northeastern University
+    url: http://www.neu.com
+    email: support@neu.com
+  license:
+    name: Northeastern University
+    url: http://www.neu.com
+host: neu.com
+tags:
+  - name: authenticated
+  - name: unauthenticated
+  - name: public
+schemes:
+  - https
+securityDefinitions:
+  basicAuth:
+    type: basic
+paths:
+  /v4/product/{product_id}/image/{image_id}:
+    delete:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Delete Image
+      description: Delete Image from S3
+      operationId: deleteImage
+      produces:
+        - application/json
+      parameters:
+        - name: product_id
+          in: path
+          description: |
+            Product Id
+          required: true
+          type: string
+          x-example: Product_123
+        - name: image_id
+          in: path
+          description: |
+            Image Id
+          required: true
+          type: string
+          x-example: Image_123
+      responses:
+        "204":
+          description: |
+            No Content
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Get Image Details
+      description: Get Image Detail using Image Id
+      operationId: getImage
+      produces:
+        - application/json
+      parameters:
+        - name: product_id
+          in: path
+          description: |
+            Product Id
+          required: true
+          type: string
+          x-example: Product_123
+        - name: image_id
+          in: path
+          description: |
+            Image Id
+          required: true
+          type: string
+          x-example: Image_123
+      responses:
+        "200":
+          description: |
+            *OK*
+          schema:
+            $ref: '#/definitions/Image'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /v4/product/{product_id}/image:
+    post:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Upload a Document
+      operationId: Create Images
+      produces:
+        - application/json
+      consumes:
+        - application/octet-stream
+      parameters:
+        - name: product_id
+          in: path
+          description: |
+            Product Id
+          required: true
+          type: string
+          x-example: Product_123
+        - in: body
+          name: file
+          description: "Image File to be uploaded"
+          schema:
+            type: string
+            format: binary
+        - in: body
+          name: fileType
+          schema:
+            type: object
+      responses:
+        "201":
+          description: |
+            File Uploaded
+          schema:
+            $ref: '#/definitions/Image'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Get List of All Images Uploaded.
+      operationId: getImagesList
+      produces:
+        - application/json
+      parameters:
+        - name: product_id
+          in: path
+          description: |
+            Product Id
+          required: true
+          type: string
+          x-example: Product_123
+      responses:
+        "200":
+          description: |
+            *OK*
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Image'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /v4/user/{userId}:
+    get:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Get User's account information.
+      operationId: getUser
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: |
+            Unique identifier of the User
+          required: true
+          type: string
+          x-example: User_123
+      responses:
+        "200":
+          description: |
+            *OK* - User is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    put:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: update User's account information.
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          description: |
+            Unique identifier of the User
+          required: true
+          type: string
+          x-example: User_123
+        - in: body
+          name: User
+          description: "User to be Created or Updated"
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: |
+            *OK* - User is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /v4/product:
+    post:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: create new product
+      operationId: createProduct
+      parameters:
+        - in: body
+          name: Product
+          description: "Product to be Created or Updated"
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        "200":
+          description: |
+            *OK* - Product is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /v4/product/{productId}:
+    put:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: update product information.
+      operationId: updateProduct
+      parameters:
+        - name: productId
+          in: path
+          description: |
+            Unique identifier of the product
+          required: true
+          type: string
+          x-example: User_123
+        - in: body
+          name: Product
+          description: "Product to be Created or Updated"
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        "200":
+          description: |
+            *OK* - User is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    patch:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Patch product information.
+      operationId: patchProduct
+      parameters:
+        - name: productId
+          in: path
+          description: |
+            Unique identifier of the User
+          required: true
+          type: string
+          x-example: User_123
+        - in: body
+          name: Product
+          description: "Product to be Created or Updated"
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        "200":
+          description: |
+            *OK* - Product is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - authenticated
+      summary: Delete product information.
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          description: |
+            Unique identifier of the User
+          required: true
+          type: string
+          x-example: Product_123
+      responses:
+        "200":
+          description: |
+            *OK* - Product is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - public
+      summary: Get Product's information.
+      operationId: getProduct
+      produces:
+        - application/json
+      parameters:
+        - name: productId
+          in: path
+          description: |
+            Unique identifier of the product
+          required: true
+          type: string
+          x-example: User_123
+      responses:
+        "200":
+          description: |
+            *OK* - Product is retrieved successfully.
+          schema:
+            $ref: '#/definitions/Product'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /v4/user:
+    post:
+      security:
+        - basicAuth: [ ]
+      tags:
+        - public
+      summary: create new user
+      operationId: createUser
+      parameters:
+        - in: body
+          name: User
+          description: "User to be Created or Updated"
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: |
+            *OK* - User is retrieved successfully.
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: |
+            *Bad Request* - The server cannot process the request due to a malformed syntax. The response can be caused by missing mandatory query parameters, invalid value in the query parameters, validation exceptions, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: |
+            *Unauthorized* - The server cannot apply the request because it lacks valid authentication credentials for the target resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "403":
+          description: |
+            *Forbidden* - The server refuses to apply the request because the client does not have access rights to the content.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: |
+            *Not Found* - The server did not find anything matching the request URI. The response can be caused by missing path parameters, invalid web resource, and so on.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "409":
+          description: |
+            *Conflict* - The server cannot complete the request due to a conflict with the current state of the resource.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: |
+            *Internal Server ErrorResponse* - The server encountered an unexpected condition that prevented it from fulfilling the request.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /healthz:
+    get:
+      tags:
+        - public
+      summary: Check the health of server.
+      operationId: healthz
+      responses:
+        "200":
+          description: |
+            *OK* - User is retrieved successfully.
+definitions:
+  ErrorResponse:
+    allOf:
+      - type: object
+        required:
+          - status
+          - code
+          - message
+        properties:
+          status:
+            type: string
+          code:
+            type: string
+          message:
+            type: string
+  Image:
+    allOf:
+      - type: object
+        properties:
+          image_id:
+            type: string
+            description: "image id"
+          product_id:
+            type: string
+            description: "product id"
+          file_name:
+            type: string
+            description: "file name"
+          date_created:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true
+          s3_bucket_path:
+            type: string
+            description: "S3 bucket path"
+  User:
+    allOf:
+      - type: object
+        required:
+          - first_name
+          - last_name
+          - "password"
+          - username
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: "example: 1"
+            readOnly: true
+          first_name:
+            type: string
+            description: "example: Jane"
+          last_name:
+            type: string
+            description: "example: Doe"
+          "password":
+            type: string
+            format: password
+            description: "example: somepassword"
+            writeOnly: true
+          username:
+            type: string
+            format: email
+            description: "jane.doe@example.com"
+          account_created:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true
+          account_updated:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true
+  Product:
+    allOf:
+      - type: object
+        required:
+          - name
+          - description
+          - sku
+          - manufacturer
+          - quantity
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: "example: 1"
+            readOnly: true
+          name:
+            type: string
+            description: "example: Jane"
+          description:
+            type: string
+            description: "example: Doe"
+          sku:
+            type: string
+            format: password
+            description: "example: somepassword"
+          manufacturer:
+            type: string
+            format: email
+            description: "jane.doe@example.com"
+          quantity:
+            type: string
+            format: email
+            description: "quantity"
+          date_added:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true
+          date_last_updated:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true
+          owner_user_id:
+            type: string
+            description: "example: 2016-08-29T09:12:33.001Z"
+            readOnly: true

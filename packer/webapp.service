@@ -1,0 +1,14 @@
+[Unit]
+Description=Web App
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ec2-user/
+Environment=NODE_PORT=8080
+Type=simple
+ExecStart=/usr/bin/java -jar /home/ec2-user/neu.cloud.assignment-1.0-SNAPSHOT.jar
+Restart=on-Failure
+User=ec2-user
+
+[Install]
+WantedBy=multi-user.target
